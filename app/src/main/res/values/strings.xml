@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">creditmanger</string>
+<string name="navigation_drawer_open">open navigation drawer</string>
+<string name="navigation_drawer_close">close navigation drawer</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+<string name="hello_blank_fragment">Hello blank fragment</string>
+
+        <string-array name="userlistdrop">
+            <item>user1</item>
+            <item>user2</item>
+            <item>user3</item>
+            <item>user4</item>
+            <item>user5</item>
+            <item>user6</item>
+            <item>user7</item>
+            <item>user8</item>
+            <item>user9</item>
+            <item>user10</item>
+        </string-array>
+</resources>
+

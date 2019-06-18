@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@android:drawable/presence_online"
+            android:title="Home"></item>
+        <item
+            android:id="@+id/nav_allusers"
+            android:icon="@drawable/ic_group_black_24dp"
+            android:title="Allusers"></item>
+        <item
+            android:id="@+id/nav_selectav"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="UserInfo"></item>
+        <item
+            android:id="@+id/nav_transfercredit"
+            android:icon="@drawable/ic_trending_flat_black_24dp"
+            android:title="Transfer"></item>
+    </group>
+    <item android:title="communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_call_made_black_24dp"
+                android:title="Share"></item>
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_trending_flat_black_24dp"
+                android:title="Send"></item>
+        </menu>
+    </item>
+</menu>
