@@ -27,10 +27,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.zip.Inflater;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,java.io.Serializable {
     public DrawerLayout drawer;
     public  SharedPreferences sharedPreferences;
     public  static int pos=-1;
@@ -41,12 +47,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static int amount;
     public static String usr[];
     public static int curractivity=0;
+
+    Blockchain vincoin;
+
     public  static  String s[]={"user1","user2","user3","user4","user5","user6","user7","user8","user9","user10"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
 
         sharedPreferences=this.getSharedPreferences("com.example.vinithreddy.creditmanger",Context.MODE_PRIVATE);
         sharedPreferences.edit().putString("databasestats","notcreated").apply();
@@ -172,6 +185,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 con.execSQL("INSERT INTO users(name,email,currcredits) VALUES ('user9','user9@gmail.com',450)");
                 con.execSQL("INSERT INTO users(name,email,currcredits) VALUES ('user10','user10@gmail.com',500)");
                 con.execSQL("CREATE TABLE IF NOT EXISTS transfers(userfrom VARCHAR,userto VARCHAR,amount int(10),dateof date)");
+
+                //blockchain integration
+                vincoin=new Blockchain();
+
+                String filePath = this.getFilesDir().getPath().toString() + "/data.dat";
+                File f = new File(this.getFilesDir(), filePath);
+
+                // Serialization
+                try
+                {
+                    //Saving of object in a file
+                    FileOutputStream file = new FileOutputStream("res\\data.dat");
+                    ObjectOutputStream out = new ObjectOutputStream(file);
+
+                    // Method for serialization of object
+                    out.writeObject(vincoin);
+
+                    out.close();
+                    file.close();
+
+                    System.out.println("Object has been serialized");
+
+                }
+
+                catch(IOException ex)
+                {
+                    System.out.println("IOException is caught");
+                    Log.i("blockchain test ser",ex.toString());
+                }
+
+
             }
             usr=new String[1];
             usr[0]=s[pos];
@@ -205,6 +249,69 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             insertValues.put("amount",amount);
             insertValues.put("dateof",System.currentTimeMillis());
             con.insert("transfers",null,insertValues);
+
+            //blockchain integration
+            String filePath = this.getFilesDir().getPath().toString() + "/data.dat";
+            try
+            {
+
+                // Reading the object from a file
+                FileInputStream file = new FileInputStream(filePath);
+                ObjectInputStream in = new ObjectInputStream(file);
+
+                // Method for deserialization of object
+                vincoin = (Blockchain) in.readObject();
+
+                in.close();
+                file.close();
+
+                System.out.println("Object has been deserialized ");
+
+            }
+
+            catch(IOException ex)
+            {
+                System.out.println("IOException is caught");
+                Log.i("blockchain test dser1",ex.toString());
+            }
+
+            catch(ClassNotFoundException ex)
+            {
+                System.out.println("ClassNotFoundException is caught");
+                Log.i("blockchain test dser2",ex.toString());
+            }
+
+
+
+            vincoin.addBlock(uname,uname2,amount);
+
+
+
+
+            // Serialization
+            try
+            {
+                //Saving of object in a file
+                FileOutputStream file = new FileOutputStream(filePath);
+                ObjectOutputStream out = new ObjectOutputStream(file);
+
+                // Method for serialization of object
+                out.writeObject(vincoin);
+
+                out.close();
+                file.close();
+
+                System.out.println("Object has been serialized");
+
+            }
+
+            catch(IOException ex)
+            {
+                System.out.println("IOException is caught");
+                Log.i("blockchain test ser2",ex.toString());
+            }
+            for(int i=0;i<vincoin.chain.size();i++)
+            Log.i("blockchain test",vincoin.chain.get(i).toString());
 
             //change credits
             currcredits=currcredits-amount;
