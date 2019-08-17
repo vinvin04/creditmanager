@@ -282,10 +282,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
 
-
+            //if(vincoin.isBlockchainValid())
             vincoin.addBlock(uname,uname2,amount);
 
-
+            //vincoin.isBlockchainValid()
 
 
             // Serialization
@@ -313,6 +313,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             for(int i=0;i<vincoin.chain.size();i++)
             Log.i("blockchain test",vincoin.chain.get(i).toString());
 
+            Log.i("blockchain check test",Boolean.toString(vincoin.isBlockchainValid()));
+
             //change credits
             currcredits=currcredits-amount;
 
@@ -329,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.i("user2",uname2);
             usr2[0]=uname2;
             Cursor cursor=con.rawQuery("SELECT * FROM users WHERE name = ?",usr2);
-            Log.i("count",Integer.toString(cursor.getCount()));
+            //Log.i("count",Integer.toString(cursor.getCount()));
 
             int ni2=cursor.getColumnIndex("name");
             int ei2=cursor.getColumnIndex("email");
@@ -339,14 +341,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             String k1=cursor.getString(ei2);
             int k2=cursor.getInt(ci2);
             cursor.close();
-            Log.i("user2",k+k1+Integer.toString(k2));
+           // Log.i("user2",k+k1+Integer.toString(k2));
 
 
             int user2updatedcredits=k2+amount;
 
-            Log.i("user2updated",Integer.toString(user2updatedcredits));
+            //Log.i("user2updated",Integer.toString(user2updatedcredits));
 
-            Log.i("user2 update before",Integer.toString(user2updatedcredits));
+            //Log.i("user2 update before",Integer.toString(user2updatedcredits));
 
             //update user2 credits
             String us[]=new String[1];

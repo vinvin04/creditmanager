@@ -19,19 +19,19 @@ class Block implements java.io.Serializable
         this.from=from;
         this.to=to;
         this.amount=amount;
-        this.hash=this.hash(this);
+        this.hash=this.hash();
         phash=prevhash;
     }
     @Override
     public String toString()
     {
-        return this.index+"\n"+this.from+"\n"+this.to+"\n"+this.amount+"\n"+this.phash+"\n"+this.hash;
+        return this.index+"\n"+this.from+"\n"+this.to+"\n"+this.amount+"\n"+this.hash+"\n"+this.phash;
     }
-    public String hash(Block b)
+    public String hash()
     {
         String s=this.index+this.from+this.to+this.amount;
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] messageDigest = md.digest(s.getBytes());
             BigInteger no = new BigInteger(1, messageDigest);
             String hashtext = no.toString(16);
@@ -62,6 +62,32 @@ public class Blockchain implements java.io.Serializable
     }
     void addBlock(String from,String to,int amount)
     {
+        prevhash=chain.get(chain.size()-1).hash;
         chain.add(new Block(chain.size(),from,to,amount,prevhash));
+    }
+
+    boolean isBlockchainValid()
+    {
+        for(int i=1;i<chain.size();i++)
+        {
+            String currentHash=chain.get(i).hash;
+            String pvHash=chain.get(i-1).hash;
+            if(chain.get(i).hash().equals(currentHash))
+            {
+                if(chain.get(i).phash.equals(pvHash))
+                {
+
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
